@@ -1,0 +1,3 @@
+.input-style {
+  @apply p-4 outline-none w-full my-4 border-[1px]  tracking-wider border-[var(--dark-blue)] rounded-md focus:outline-none focus:border-[var(--grayish-blue)];
+}
