@@ -4,7 +4,7 @@ Formulários de cadastro para inscrição de curso sobre desenvolvimento.
 
 ## Screenshot
 
-###
+### Tecnologias e recursos
 
 1. _Desenvolvido com NextJS, Tailwind CSS e TypeScript._
 2. _Foi utilizado classe customizada com tailwind, mocks, responsividade, componentização, useState com objeto, validação com regex, hooks personalizados._
