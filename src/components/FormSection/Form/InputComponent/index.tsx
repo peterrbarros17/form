@@ -1,15 +1,4 @@
-import { InputHTMLAttributes } from "react";
-
-type InputProps = {
-  placeholder: string;
-  required?: boolean;
-  type: string;
-  name: string;
-  id: string;
-  className: string;
-  onChange: React.ChangeEventHandler<HTMLInputElement>;
-  value: string;
-} & InputHTMLAttributes<HTMLInputElement>;
+import { InputProps } from "@/types/types";
 
 export default function InputComponent(props: InputProps) {
   return (

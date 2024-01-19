@@ -4,7 +4,7 @@ export default function TermsComponent() {
   return (
     <article className="text-center">
       <p className="text-[var(--dark-blue)]">{termsText.terms}</p>
-      <a href="" className="text-[var(--red)] font-semibold">
+      <a className="text-[var(--red)] font-semibold cursor-pointer">
         {termsText.termBtn}
       </a>
     </article>

@@ -1,122 +1,92 @@
 "use client";
-import { ChangeEvent, FormEvent, useState } from "react";
 import InputComponent from "./InputComponent";
 import ButtonSubmit from "./ButtonSubmit";
+import { useHandleLogin } from "./hooks/useHandleLogin";
+import { ChangeEvent } from "react";
 
-type FormProps = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-};
+import { Poppins } from "next/font/google";
+import { IconError } from "./InputComponent/icon-error";
+
+const poppins = Poppins({
+  weight: ["600"],
+  subsets: ["latin"],
+});
 
 export default function Form() {
-  const [handleLogin, setHandleLogin] = useState<FormProps>({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-  });
+  const { handleLogin, errors, handleChange, handleSubmit } = useHandleLogin();
 
-  const [errors, setErrors] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-  });
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>, key: string) => {
-    setHandleLogin({ ...handleLogin, [key]: event.target.value });
-  };
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const newErrors = {
-      firstName: handleLogin.firstName ? "" : "Campo obrigatório",
-      lastName: handleLogin.lastName ? "" : "Campo obrigatório",
-      email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(handleLogin.email)
-        ? ""
-        : "Email inválido",
-      password:
-        handleLogin.password.length >= 8
-          ? ""
-          : "Senha deve ter pelo menos 8 caracteres",
-    };
-
-    setErrors(newErrors);
-
-    if (Object.values(newErrors).some((error) => error !== "")) {
-      return;
-    } else {
-      setHandleLogin({
-        firstName: "",
-        lastName: "",
-        email: "",
-        password: "",
-      });
-      console.log(handleLogin);
-    }
-  };
+  const formFields = [
+    {
+      id: "first-name",
+      type: "text",
+      name: "firstName",
+      placeholder: "First name",
+      value: handleLogin.firstName,
+      onChange: (event: ChangeEvent<HTMLInputElement>) =>
+        handleChange(event, "firstName"),
+      minLength: 2,
+      maxLength: 100,
+    },
+    {
+      id: "last-name",
+      type: "text",
+      name: "lastName",
+      placeholder: "Last name",
+      value: handleLogin.lastName,
+      onChange: (event: ChangeEvent<HTMLInputElement>) =>
+        handleChange(event, "lastName"),
+      minLength: 2,
+      maxLength: 100,
+    },
+    {
+      id: "email",
+      type: "email",
+      name: "email",
+      placeholder: "Email Address",
+      value: handleLogin.email,
+      onChange: (event: ChangeEvent<HTMLInputElement>) =>
+        handleChange(event, "email"),
+      minLength: 2,
+      maxLength: 100,
+    },
+    {
+      id: "password",
+      type: "password",
+      name: "password",
+      placeholder: "Password",
+      value: handleLogin.password,
+      onChange: (event: ChangeEvent<HTMLInputElement>) =>
+        handleChange(event, "password"),
+      minLength: 8,
+      maxLength: 100,
+    },
+  ];
   return (
     <form
       action=""
-      className="flex flex-col text-[var(--dark-blue)] font-semibold"
+      className={`flex flex-col text-[var(--dark-blue)] ${poppins.className}`}
       onSubmit={handleSubmit}
     >
-      <InputComponent
-        className="input-style"
-        id="first-name"
-        type="text"
-        name="first-name"
-        placeholder="First name"
-        onChange={(event) => handleChange(event, "firstName")}
-        value={handleLogin.firstName}
-        minLength={2}
-        maxLength={100}
-      />
-      {errors.firstName && (
-        <span className="text-red-500">{errors.firstName}</span>
-      )}
-      <InputComponent
-        className="input-style"
-        id="last-name"
-        type="text"
-        name="last-name"
-        placeholder="Last name"
-        onChange={(event) => handleChange(event, "lastName")}
-        value={handleLogin.lastName}
-        minLength={2}
-        maxLength={100}
-      />
-      {errors.lastName && (
-        <span className="text-red-500">{errors.lastName}</span>
-      )}
-      <InputComponent
-        className="input-style"
-        id="email"
-        type="email"
-        name="email"
-        placeholder="Email Address"
-        onChange={(event) => handleChange(event, "email")}
-        value={handleLogin.email}
-        minLength={2}
-        maxLength={100}
-      />
-      {errors.email && <span className="text-red-500">{errors.email}</span>}
-      <InputComponent
-        className="input-style"
-        id="password"
-        type="password"
-        name="password"
-        placeholder="Password"
-        onChange={(event) => handleChange(event, "password")}
-        value={handleLogin.password}
-        minLength={8}
-        maxLength={100}
-      />
-      {errors.password && (
-        <span className="text-red-500">{errors.password}</span>
-      )}
+      {formFields.map((field, index) => (
+        <div key={index} className="flex flex-col text-right">
+          <InputComponent
+            className="input-style"
+            id={field.id}
+            type={field.type}
+            name={field.name}
+            placeholder={errors[field.placeholder] ? "Erro" : field.placeholder}
+            onChange={field.onChange}
+            value={field.value}
+            minLength={field.minLength}
+            maxLength={field.maxLength}
+          />
+          {errors[field.name] && (
+            <span className="text-[var(--red)] text-sm mb-1 italic">
+              {errors[field.name]}
+            </span>
+          )}
+        </div>
+      ))}
       <ButtonSubmit type="submit">claim your free trial</ButtonSubmit>
     </form>
   );

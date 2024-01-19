@@ -12,3 +12,8 @@ export const termsText = {
   terms: "By clicking the button, you are agreeing to our",
   termBtn: "Terms and Services",
 };
+
+export const formSucess = {
+  sucess: "Successful registration",
+  thx: "Thanks!!!",
+};

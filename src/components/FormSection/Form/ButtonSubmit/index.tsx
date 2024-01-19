@@ -1,11 +1,6 @@
-import { ButtonHTMLAttributes, MouseEventHandler } from "react";
+import { ButtonProps } from "@/types/types";
 
-type ButtonProps = {
-  children: React.ReactNode;
-  type: string;
-} & ButtonHTMLAttributes<HTMLButtonElement>;
-
-export default function ButtonSubmit({ children, onClick, type }: ButtonProps) {
+export default function ButtonSubmit({ children, type }: ButtonProps) {
   return (
     <button
       className={`uppercase bg-[var(--green)] py-4
